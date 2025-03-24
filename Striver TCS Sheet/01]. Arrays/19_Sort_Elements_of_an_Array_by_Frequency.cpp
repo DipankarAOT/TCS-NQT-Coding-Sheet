@@ -18,17 +18,42 @@ Explanation: Since -199 is present 2 times so it will be printed at first , then
 */ 
 
 
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-void sortByFreq(int &arr, int n){
-    
+// Custom comparator for sorting
+bool cmp(pair<int, int>& a, pair<int, int>& b) {
+    if (a.second == b.second) return a.first < b.first; // Sort by value if frequency is same
+    return a.second > b.second;  // Sort by frequency (higher first)
 }
 
-int main()
-{
-    int n=6;
-    int arr[]={1,2,3,2,4,3,1,2};    
-    sortByFreq(arr, n);
+void sortByFrequency(vector<int>& v) {
+    unordered_map<int, int> freqMap;
+
+    // Count frequency of each element
+    for (int num : v) {
+        freqMap[num]++;
+    }
+
+    // Move map elements to a vector for sorting
+    vector<pair<int, int>> freqVec(freqMap.begin(), freqMap.end());
+
+    // Sort by frequency (descending) and then by value (ascending)
+    sort(freqVec.begin(), freqVec.end(), cmp);
+
+    // Print sorted elements
+    cout << "Sorted by frequency: ";
+    for (auto it : freqVec) {
+        for (int i = 0; i < it.second; i++) {
+            cout << it.first << " ";
+        }
+    }
+    cout << endl;
+}
+
+int main() {
+    vector<int> v = {4, 2, 2, 6, 1, 5, 5, 5, 3};
+    sortByFrequency(v);
     return 0;
 }
+
